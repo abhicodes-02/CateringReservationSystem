@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Golden Spoon | My Orders</title>
+  <script type="module" src="script/myorders.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+    h1 {
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+</head>
+<body class="bg-black text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between px-6 py-4 bg-zinc-950 shadow-md">
+    <div class="flex items-center gap-3">
+      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" class="h-10" alt="logo">
+      <h1 class="text-3xl text-yellow-400 font-extrabold">Golden Spoon</h1>
+    </div>
+    <nav class="space-x-6 hidden sm:flex items-center text-lg font-medium">
+      <a href="userdashboard.html" class="hover:text-yellow-400">Dashboard</a>
+      <a href="menu.html" class="hover:text-yellow-400">Menu</a>
+      <button id="logoutBtn" class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded">Logout</button>
+    </nav>
+  </header>
+
+  <!-- Orders Section -->
+  <main class="flex-1 flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-5xl">
+      <h2 class="text-3xl text-center text-yellow-300 font-semibold mb-8">📦 My Orders</h2>
+
+      <div class="overflow-x-auto">
+        <table class="min-w-full bg-zinc-800 rounded-lg shadow-lg text-center">
+          <thead class="bg-yellow-500 text-black">
+            <tr>
+              <th class="px-4 py-3">#</th>
+              <th class="px-4 py-3">Items</th>
+              <th class="px-4 py-3">Total (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="ordersBody" class="text-white">
+            <!-- Filled via JS -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-zinc-950 text-center py-4 text-gray-400 text-sm">
+    © 2025 Golden Spoon Catering | Taste Crafted with Care.
+  </footer>
+</body>
+</html>

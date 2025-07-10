@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Orders</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    body { background: #f4f4f4; color: #1a202c; font-family: sans-serif; padding: 20px; }
+    .blue-btn { background: #2b6cb0; color: white; }
+    .blue-btn:hover { background: #2c5282; }
+    .green-btn { background: #38a169; color: white; }
+    .red-btn { background: #e53e3e; color: white; }
+    .export-btn { padding: 8px 12px; border-radius: 5px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="flex justify-between items-center mb-6">
+    <button onclick="history.back()" class="blue-btn px-4 py-2 rounded">← Back</button>
+    <h1 class="text-2xl font-semibold text-blue-700">All Orders</h1>
+    <div class="space-x-2">
+      <button id="csvBtn" class="export-btn blue-btn">Export CSV</button>
+      <button id="pdfBtn" class="export-btn blue-btn">Export PDF</button>
+    </div>
+  </div>
+
+  <div class="mb-4 flex justify-center">
+    <input id="searchId" class="border border-blue-300 rounded-l px-3 py-2 w-60" placeholder="Search by Order ID..."/>
+    <button onclick="searchOrder()" class="blue-btn px-4 py-2 rounded-r">Search</button>
+    <button onclick="viewAllOrders()" class="blue-btn px-4 py-2 rounded ml-2">Reset</button>
+  </div>
+
+  <div id="orders" class="grid gap-4"></div>
+
+  <script type="module">
+    import { db } from './script/firebase-config.js';
+    import {
+      collection, getDocs, doc, getDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+    const { jsPDF } = window.jspdf;
+
+    const container = document.getElementById("orders");
+    let currentOrders = [];
+
+    window.viewAllOrders = async () => {
+      currentOrders = [];
+      container.innerHTML = "Loading...";
+      try {
+        const snap = await getDocs(collection(db, "orders"));
+        container.innerHTML = "";
+        snap.forEach(d => currentOrders.push({ id: d.id, data: d.data() }));
+        renderOrders(currentOrders);
+      } catch (e) {
+        container.innerHTML = `<p class="text-red-500">Error loading: ${e.message}</p>`;
+      }
+    };
+
+    window.searchOrder = async () => {
+      const id = document.getElementById("searchId").value.trim();
+      if (!id) return viewAllOrders();
+      container.innerHTML = "Searching...";
+      try {
+        const snap = await getDoc(doc(db, "orders", id));
+        container.innerHTML = "";
+        currentOrders = snap.exists() ? [{ id: snap.id, data: snap.data() }] : [];
+        renderOrders(currentOrders);
+      } catch (e) {
+        container.innerHTML = `<p class="text-red-500">Error: ${e.message}</p>`;
+      }
+    };
+
+    const renderOrders = async (orders) => {
+      if (orders.length === 0) {
+        container.innerHTML = "<p>No orders found.</p>";
+        return;
+      }
+      container.innerHTML = '';
+      for (const { id, data } of orders) {
+        const userSnap = await getDoc(doc(db, "users", data.userId));
+        const userInfo = userSnap.exists() ? `${userSnap.data().name || ''} (${userSnap.data().email})` : data.userId;
+
+        const card = document.createElement("div");
+        card.className = "p-4 bg-white rounded-lg shadow-md flex flex-col gap-2";
+        card.innerHTML = `
+          <strong>Order ID:</strong> ${id}<br>
+          <strong>User:</strong> ${userInfo}<br>
+          <strong>Products:</strong> ${data.items?.map(i => i.name).join(", ")}<br>
+          <strong>Total:</strong> ₹${data.items?.reduce((s,i)=>s+i.price,0)}<br>
+          <strong>Status:</strong> <span id="status-${id}">${data.status || "Pending"}</span><br>
+          <div class="mt-2 space-x-2">
+            <button class="green-btn px-3 py-1 rounded" onclick="updateStatus('${id}','Delivered')">Delivered</button>
+            <button class="red-btn px-3 py-1 rounded" onclick="updateStatus('${id}','Cancelled')">Cancelled</button>
+          </div>
+        `;
+        container.appendChild(card);
+      }
+    };
+
+    window.updateStatus = async (id, status) => {
+      await updateDoc(doc(db, "orders", id), { status });
+      document.getElementById(`status-${id}`).innerText = status;
+    };
+
+    // Export CSV
+    document.getElementById("csvBtn").addEventListener("click", () => {
+      if (!currentOrders.length) return alert("No data to export");
+      const header = ["Order ID", "User", "Products", "Total", "Status"];
+      const rows = currentOrders.map(({id, data}) => [
+        id,
+        data.userId,
+        data.items.map(i=>i.name).join("; "),
+        data.items.reduce((sum,i)=>sum+i.price,0),
+        data.status || ""
+      ]);
+      const csv = [header, ...rows].map(r => r.join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "orders.csv";
+      a.click();
+    });
+
+    // Export PDF
+    document.getElementById("pdfBtn").addEventListener("click", () => {
+      if (!currentOrders.length) return alert("No data to export");
+      const docPDF = new jsPDF();
+      docPDF.setFontSize(12);
+      let y = 20;
+      currentOrders.forEach(({ id, data }, idx) => {
+        docPDF.text(`Order ${idx+1}`, 10, y); y+=6;
+        docPDF.text(`ID: ${id}`, 10, y); y+=6;
+        docPDF.text(`UID: ${data.userId}`, 10, y); y+=6;
+        docPDF.text(`Status: ${data.status||"Pending"}`, 10, y); y+=10;
+      });
+      docPDF.save("orders.pdf");
+    });
+
+    viewAllOrders();
+  </script>
+</body>
+</html>

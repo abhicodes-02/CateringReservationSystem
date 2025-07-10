@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --danger: #e11d48;
+      --light: #f9f9f9;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --card-bg: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--light);
+      color: var(--text-dark);
+      padding: 20px;
+    }
+
+    .dashboard {
+      max-width: 960px;
+      margin: auto;
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px var(--shadow);
+      padding: 40px 30px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+      color: var(--primary);
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      flex: 1;
+      min-width: 120px;
+      background-color: var(--primary);
+      color: white;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .button.logout {
+      background-color: var(--danger);
+    }
+
+    .button:hover {
+      opacity: 0.9;
+    }
+
+    .section {
+      margin-top: 30px;
+    }
+
+    .section h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      color: var(--text-dark);
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
+      padding-bottom: 5px;
+    }
+
+    .card-button {
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background 0.3s;
+    }
+
+    .card-button:hover {
+      background-color: #e0e7ff;
+    }
+
+    @media (max-width: 600px) {
+      .actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard">
+    <h2>Welcome, Admin 👋</h2>
+
+    <div class="actions">
+      <button class="button" id="uploadBtn">➕ Upload Product</button>
+      <button class="button" id="allproducts">📦 View/Edit All Products</button>
+      <button class="button" id="vieworders">🧾 View All Orders</button>
+      <button class="button logout" id="logoutBtn">🚪 Logout</button>
+    </div>
+
+    <div class="section">
+      <h3>📦 Quick Access</h3>
+      <div class="card-button" id="uploadQuick">Upload New Product</div>
+      <div class="card-button" id="productsQuick">Go to All Products</div>
+      <div class="card-button" id="ordersQuick">See All Orders</div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth } from './script/firebase-config.js';
+    import { signOut } from 'https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js';
+
+    // Main Buttons
+    document.getElementById("uploadBtn").onclick =
+    document.getElementById("uploadQuick").onclick = () => {
+      window.location.href = "upload.html";
+    };
+
+    document.getElementById("allproducts").onclick =
+    document.getElementById("productsQuick").onclick = () => {
+      window.location.href = "allProducts.html";
+    };
+
+    document.getElementById("vieworders").onclick =
+    document.getElementById("ordersQuick").onclick = () => {
+      window.location.href = "vieworders.html";
+    };
+
+    document.getElementById("logoutBtn").onclick = () => {
+      signOut(auth).then(() => {
+        alert("Logged out successfully.");
+        window.location.href = "index.html";
+      });
+    };
+  </script>
+
+</body>
+</html>

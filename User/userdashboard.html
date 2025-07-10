@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Golden Spoon | User Dashboard</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    h1, .brand {
+      font-family: 'Playfair Display', serif;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header class="flex items-center justify-between px-6 py-4 bg-zinc-950 shadow-md">
+    <div class="flex items-center gap-3">
+      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="logo" class="h-10">
+      <h1 class="text-3xl text-yellow-400 font-extrabold tracking-wide brand">Golden Spoon</h1>
+    </div>
+    <nav class="space-x-6 text-lg font-medium hidden sm:block">
+      <a href="../homepage.html" class="hover:text-yellow-400">Home</a>
+      <button id="logoutBtn" class="hover:text-yellow-400">Logout</button>
+    </nav>
+  </header>
+
+  <!-- Dashboard -->
+  <main class="p-6">
+    <h2 class="text-3xl text-yellow-300 font-bold text-center mb-10">User Dashboard</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      
+      <a href="menu.html" class="bg-zinc-800 hover:bg-zinc-700 p-6 rounded-xl text-center shadow-md transition">
+        <i class="bi bi-menu-button-wide text-yellow-400 text-4xl mb-3"></i>
+        <h3 class="text-xl font-bold mb-1">View Products</h3>
+        <p class="text-sm text-gray-400">Browse all available food items</p>
+      </a>
+
+      <a href="cart.html" class="bg-zinc-800 hover:bg-zinc-700 p-6 rounded-xl text-center shadow-md transition">
+        <i class="bi bi-cart-plus text-yellow-400 text-4xl mb-3"></i>
+        <h3 class="text-xl font-bold mb-1">Add to Cart</h3>
+        <p class="text-sm text-gray-400">Add your favorite dishes to cart</p>
+      </a>
+
+      <a href="myorders.html" class="bg-zinc-800 hover:bg-zinc-700 p-6 rounded-xl text-center shadow-md transition">
+        <i class="bi bi-receipt text-yellow-400 text-4xl mb-3"></i>
+        <h3 class="text-xl font-bold mb-1">My Orders</h3>
+        <p class="text-sm text-gray-400">Check your current and past orders</p>
+      </a>
+
+      <a href="cart.html#place-order" class="bg-zinc-800 hover:bg-zinc-700 p-6 rounded-xl text-center shadow-md transition">
+        <i class="bi bi-credit-card-2-front text-yellow-400 text-4xl mb-3"></i>
+        <h3 class="text-xl font-bold mb-1">Place Order</h3>
+        <p class="text-sm text-gray-400">Proceed to checkout and confirm</p>
+      </a>
+
+      <a href="profile.html" class="bg-zinc-800 hover:bg-zinc-700 p-6 rounded-xl text-center shadow-md transition">
+        <i class="bi bi-person-circle text-yellow-400 text-4xl mb-3"></i>
+        <h3 class="text-xl font-bold mb-1">My Profile</h3>
+        <p class="text-sm text-gray-400">Manage your user account details</p>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 mt-10 bg-zinc-950 text-gray-500 text-sm">
+    © 2025 Golden Spoon Catering | Taste Crafted with Care.
+  </footer>
+
+  <!-- Firebase Logout Script -->
+  <script type="module">
+    import { auth } from '../Adminside/script/firebase-config.js';
+    import { signOut } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await signOut(auth);
+        alert("You have been logged out.");
+        window.location.href = "userlogin.html";
+      } catch (error) {
+        alert("Logout failed: " + error.message);
+      }
+    });
+  </script>
+
+</body>
+</html>

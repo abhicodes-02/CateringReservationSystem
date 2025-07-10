@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Golden Spoon | Home</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2935/2935337.png" type="image/png">
+
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .scrolling-wrapper {
+      display: flex;
+      animation: scrollX 60s linear infinite;
+    }
+
+    .scrolling-wrapper img {
+      height: 200px;
+      width: 320px;
+      margin-right: 14px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+    }
+
+    @keyframes scrollX {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .nav-link:hover {
+      color: #facc15;
+      transform: translateY(-2px);
+      transition: all 0.3s ease-in-out;
+    }
+
+    .hero-overlay {
+      background: linear-gradient(to bottom right, rgba(0,0,0,0.6), rgba(0,0,0,0.9));
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between px-6 py-4 bg-zinc-950 shadow-md z-10">
+    <div class="flex items-center gap-3">
+      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="logo" class="h-10">
+      <h1 class="text-3xl text-yellow-400 font-extrabold tracking-wide" style="font-family: 'Playfair Display', serif;">Golden Spoon</h1>
+    </div>
+    <nav class="space-x-6 hidden sm:block text-lg font-medium">
+      <a href="homepage.html" class="nav-link">Home</a>
+      <a href="User/userlogin.html" class="nav-link">Login</a>
+      <a href="Adminside/index.html" class="nav-link">Admin Login</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative h-[90vh] flex items-center justify-center text-center bg-cover bg-center" style="background-image: url('https://img.freepik.com/free-photo/top-view-table-full-delicious-food-composition_23-2149141357.jpg');">
+    <div class="absolute inset-0 hero-overlay flex flex-col justify-center items-center px-4 py-10">
+      <h2 class="text-5xl sm:text-6xl font-extrabold text-yellow-400 mb-4" style="font-family: 'Playfair Display', serif;">Welcome to Golden Spoon</h2>
+      <p class="max-w-2xl text-gray-200 text-lg sm:text-xl mb-6">Make your events unforgettable with our premium catering service. Taste luxury on every plate.</p>
+      <button onclick="window.location.href='menu.html'" class="px-6 py-3 bg-yellow-400 text-black font-bold rounded-full hover:bg-yellow-300 transition transform hover:scale-105">
+        <i class="bi bi-stars mr-1"></i> Explore Now
+      </button>
+    </div>
+  </section>
+
+  <!-- Carousel -->
+  <section class="bg-zinc-900 py-12 overflow-hidden">
+    <h3 class="text-center text-3xl text-yellow-300 font-semibold mb-10">Our Signature Dishes</h3>
+    <div class="w-full overflow-x-hidden">
+      <div class="scrolling-wrapper px-6">
+        <img src="https://i.pinimg.com/originals/eb/07/fb/eb07fbadd098d0c1b4455daae8025210.jpg" alt="Biryani">
+        <img src="https://www.cubesnjuliennes.com/wp-content/uploads/2019/11/Paneer-Butter-Masala-Recipe-1.jpg" alt="Paneer Butter Masala">
+        <img src="https://images.slurrp.com/prodrich_article/dyyx1g5kfna.webp?impolicy=slurrp-20210601&width=880&height=500" alt="Gulab Jamun">
+        <img src="https://www.hersheyicecream.com/recipes/milkshakes/images/classic-homemade-milkshake.jpg" alt="Milkshake">
+        <img src="https://b.zmtcdn.com/data/pictures/2/20313132/a75a33d834556cdd30be7a6678a684e9.jpg" alt="Chole Bhature">
+        <img src="https://i.ytimg.com/vi/DbVPaf2Pw7A/maxresdefault.jpg" alt="Buffet">
+        <img src="https://www.newsmagnify.com/wp-content/uploads/2022/01/masala-dosa-recipe.jpg" alt="Masala Dosa">
+        <img src="https://static.toiimg.com/photo/53338316.cms" alt="Butter Naan">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 bg-zinc-950 text-gray-400 text-sm">
+    <div class="mb-2">© 2025 <span class="text-yellow-300">Golden Spoon Catering</span></div>
+    Crafted with ❤️ by food lovers & developers.
+  </footer>
+
+</body>
+</html>
