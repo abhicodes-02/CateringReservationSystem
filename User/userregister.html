@@ -18,8 +18,7 @@
       font-family: 'Segoe UI', sans-serif;
     }
 
-    h1,
-    .brand {
+    h1, .brand {
       font-family: 'Playfair Display', serif;
     }
 
@@ -94,6 +93,7 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer class="text-center py-6 bg-zinc-950 text-gray-500 text-sm">
     © 2025 Golden Spoon Catering | Taste Crafted with Care.
   </footer>
@@ -102,7 +102,7 @@
   <script type="module">
     import { db, auth } from '../Adminside/script/firebase-config.js';
     import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-auth.js";
-    import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+    import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
     document.getElementById("registerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -119,8 +119,10 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-        await addDoc(collection(db, "users"), {
+        // ✅ Save to Firestore using UID as document ID
+        await setDoc(doc(db, "users", user.uid), {
           name,
           email,
           createdAt: new Date()

@@ -6,13 +6,17 @@
   <title>Golden Spoon | Menu</title>
   <script src="menu.js" type="module"></script>
 
-  <!-- Tailwind CSS CDN -->
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" />
 
-  <!-- Playfair Display Font -->
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" />
 
   <style>
     body {
@@ -32,38 +36,51 @@
       margin-bottom: 80px;
     }
 
-    h1 {
+    h1, h2 {
       font-family: 'Playfair Display', serif;
     }
   </style>
 </head>
 <body class="font-sans">
 
-  <!-- Header -->
-  <header class="flex items-center justify-between px-6 py-4 bg-zinc-950 shadow-md z-10">
-    <div class="flex items-center gap-3">
-      <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="logo" class="h-10">
-      <h1 class="text-3xl text-yellow-400 font-extrabold tracking-wide">Golden Spoon</h1>
+  <!-- Navbar -->
+  <header class="bg-zinc-950 shadow-md z-10 sticky top-0">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center gap-3">
+          <img src="https://cdn-icons-png.flaticon.com/512/1046/1046784.png" alt="logo" class="h-10">
+          <h1 class="text-2xl sm:text-3xl text-yellow-400 font-extrabold tracking-wide">Golden Spoon</h1>
+        </div>
+        <div class="hidden sm:flex space-x-6 text-lg font-medium">
+          <a href="homepage.html" class="hover:text-yellow-400 transition">Back to HomePage</a>
+        </div>
+        <div class="sm:hidden">
+          <button id="nav-toggle" class="text-yellow-400 text-3xl focus:outline-none">
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+      </div>
     </div>
-    <nav class="space-x-6 hidden sm:block text-lg font-medium">
-      <a href="homepage.html" class="hover:text-yellow-400 transition">Back to HomePage</a>
-    </nav>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden sm:hidden px-6 py-3 bg-zinc-900 space-y-2 text-center">
+      <a href="homepage.html" class="block hover:text-yellow-400">Back to HomePage</a>
+    </div>
   </header>
 
   <!-- Menu Section -->
   <section class="table-container px-4">
     <h2 class="text-4xl text-center font-bold text-yellow-300 mb-6 tracking-wide">Our Classic Menu</h2>
-    <div class="overflow-x-auto">
-      <table class="min-w-full bg-zinc-800 rounded-lg shadow-lg">
+    <div class="overflow-x-auto rounded-lg">
+      <table class="min-w-full bg-zinc-800 rounded-lg shadow-lg overflow-hidden">
         <thead>
-          <tr class="bg-yellow-500 text-black">
-            <th class="px-6 py-3 text-left text-sm font-bold uppercase">#</th>
-            <th class="px-6 py-3 text-left text-sm font-bold uppercase">Product Name</th>
-            <th class="px-6 py-3 text-left text-sm font-bold uppercase">Price (₹)</th>
+          <tr class="bg-yellow-500 text-black text-sm uppercase">
+            <th class="px-6 py-3 text-left font-bold">#</th>
+            <th class="px-6 py-3 text-left font-bold">Product Name</th>
+            <th class="px-6 py-3 text-left font-bold">Price (₹)</th>
           </tr>
         </thead>
         <tbody id="menuTableBody">
-          <!-- Firebase Data Will Appear Here -->
+          <!-- Firebase Menu Items Inject Here -->
         </tbody>
       </table>
     </div>
@@ -71,8 +88,17 @@
 
   <!-- Footer -->
   <footer class="text-center py-6 bg-zinc-950 text-gray-500 text-sm">
-    © 2025 Golden Spoon Catering. Served with love and luxury.
+    © 2025 <span class="text-yellow-300">Golden Spoon Catering</span>. Served with love and luxury.
   </footer>
+
+  <!-- JS: Mobile Navbar Toggle -->
+  <script>
+    const navToggle = document.getElementById("nav-toggle");
+    const mobileMenu = document.getElementById("mobile-menu");
+    navToggle.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+  </script>
 
 </body>
 </html>
